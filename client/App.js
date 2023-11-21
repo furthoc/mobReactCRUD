@@ -6,12 +6,16 @@ export default function App() {
 
 
   const [users,setUsers] = useState([])
+  const [selectedU, setSelU] = useState()
 
-  useEffect(() => {
+  const getUsers = () => {
     fetch('http://localhost:3001/api/users')
       .then(res => res.json())
       .then(json => setUsers(json))
-      .catch(err=> console.error(err.message))
+  }
+
+  useEffect(() => {
+    getUsers();
   },[])
 
 
@@ -26,8 +30,15 @@ export default function App() {
         </Pressable>
       </View>
       <View style={styles.Main}>
-        <Text>TESTING</Text>
-        <User users={users} />
+        {users.map(user => 
+          <Pressable key={user.id} onPress={() => setSelU(user)}>
+            <Text>{user.name}</Text>
+          </Pressable>
+        )}
+      </View>
+      {/* {!setSelU ? <>} */}
+      <View style={styles.Userbox}>
+
       </View>
     </View>
   );
@@ -42,8 +53,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   Main:{
+    flexGrow: 2,
+    border: '1px solid black',
+    borderRadius:5,
+  },
+  Userbox:{
+    flexGrow: 1,
+    border: '1px solid black',
+    borderRadius:5,
+
   },
   SideBar:{
+    flexGrow: 1,
     border: '1px solid black',
     padding:5,
     borderRadius:5,
