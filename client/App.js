@@ -25,9 +25,13 @@ export default function App() {
         <Pressable style={styles.sideBtn}>
           <Text style={styles.bttnTxt}>new user</Text>
         </Pressable>
+        {!setSelU ?
         <Pressable style={styles.sideBtn}>
-          <Text style={styles.bttnTxt}>Delete user</Text>
-        </Pressable>
+        <Text style={styles.bttnTxt}>Delete user</Text>
+      </Pressable>
+         : 
+         <></>}
+
       </View>
       <View style={styles.Main}>
         {users.map(user => 
@@ -36,9 +40,11 @@ export default function App() {
           </Pressable>
         )}
       </View>
-      {/* {!setSelU ? <>} */}
       <View style={styles.Userbox}>
-
+          {!setSelU ? 
+        <User user={selectedU}/>:
+        <Text> no user selected</Text>
+      }
       </View>
     </View>
   );
@@ -80,7 +86,3 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
 });
-
-// {users.map((user) =>{
-//   return <Text key={user.id}>{user.name}</Text>
-// })}
