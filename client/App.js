@@ -18,36 +18,50 @@ export default function App() {
     getUsers();
   },[])
 
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.SideBar}>
-        <Pressable style={styles.sideBtn}>
-          <Text style={styles.bttnTxt}>new user</Text>
-        </Pressable>
-        {!setSelU ?
-        <Pressable style={styles.sideBtn}>
-        <Text style={styles.bttnTxt}>Delete user</Text>
-      </Pressable>
-         : 
-         <></>}
-
-      </View>
-      <View style={styles.Main}>
-        {users.map(user => 
-          <Pressable key={user.id} onPress={() => setSelU(user)}>
-            <Text>{user.name}</Text>
+    return (
+      <View style={styles.container}>
+        <View style={styles.SideBar}>
+          <Pressable style={styles.sideBtn} onPress={() => {
+            fetch('http://localhost:3001/api/users/',{
+              method: 'POST',
+              headers: {"Content-Type":"application/json"}
+            })
+            .then(res=>{
+              getUsers();
+              setSelU({})
+            })
+            
+          }}>
+            <Text style={styles.bttnTxt}>new user</Text>
           </Pressable>
-        )}
+          <Pressable style={styles.sideBtn} onPress={() => {
+            fetch(`http://localhost:3001/api/users/${selectedU.id}`,
+            {
+              method: 'DELETE'
+            })
+            .then(res=>{
+              getUsers();
+              setSelU()
+            })
+          }}>
+            <Text style={styles.bttnTxt}>Delete user</Text>
+          </Pressable>
+        </View>
+        <View style={styles.Main}>
+          {users.map(user => 
+            <Pressable key={user.id} onPress={() => setSelU(user)}>
+              <Text style={{marginTop: 4}}>{user.name}</Text>
+            </Pressable>
+          )}
+        </View>
+        <View style={styles.Userbox}>
+            {selectedU !== undefined ? 
+          <User user={selectedU} getUser={getUsers()}/>:
+          <Text> no user selected</Text>
+        }
+        </View>
       </View>
-      <View style={styles.Userbox}>
-          {!setSelU ? 
-        <User user={selectedU}/>:
-        <Text> no user selected</Text>
-      }
-      </View>
-    </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -59,14 +73,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   Main:{
-    flexGrow: 2,
+    flexGrow: 1,
     border: '1px solid black',
     borderRadius:5,
+    padding: 5
   },
   Userbox:{
     flexGrow: 1,
     border: '1px solid black',
     borderRadius:5,
+    margin: 10
 
   },
   SideBar:{
