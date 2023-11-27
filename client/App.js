@@ -7,6 +7,7 @@ export default function App() {
 
   const [users,setUsers] = useState([])
   const [selectedU, setSelU] = useState()
+  let listLen
 
   const getUsers = () => {
     fetch('http://localhost:3001/api/users')
@@ -56,7 +57,13 @@ export default function App() {
         </View>
         <View style={styles.Userbox}>
             {selectedU !== undefined ? 
-          <User user={selectedU} getUser={getUsers()}/>:
+            <View>
+          <User user={selectedU} UserListLen={listLen}/>
+          <Pressable style={styles.updateBtn} onPress={()=>setSelU()} >
+                <Text>close</Text>
+            </Pressable>
+            </View>
+          :
           <Text> no user selected</Text>
         }
         </View>

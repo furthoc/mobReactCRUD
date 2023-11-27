@@ -16,7 +16,6 @@ let users = require("./users.json")
 app.get('/api/users', (req, res) => {
     res.json(users)
     console.log(users)
-    console.log("sent successfully")
 })
 //put
 app.put('/api/users', (req, res) => {
