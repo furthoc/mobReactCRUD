@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable } from "react-native";
 
-export function User({user, UserListLen}){
+export function User({user, getUsers}){
 
 
     let id = user?.id ?? -1; 
-    const [name,setName] = useState(user?.name ?? '')
+    const [name,setName] = useState(user?.name ?? 'NEWUSER')
     const [email,setEmail] = useState(user?.email ?? '')
     const [phone,setPhone] = useState(user?.phone ?? '')
     const [website,setWebsite] = useState(user?.website ?? '')
@@ -15,6 +15,9 @@ export function User({user, UserListLen}){
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
+        })
+        .then(res=>{
+            getUsers()
         })
         
     }

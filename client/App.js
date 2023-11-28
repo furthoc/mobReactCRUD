@@ -22,14 +22,16 @@ export default function App() {
     return (
       <View style={styles.container}>
         <View style={styles.SideBar}>
+          {/* no data being sent in the post. need to update */}
           <Pressable style={styles.sideBtn} onPress={() => {
             fetch('http://localhost:3001/api/users/',{
               method: 'POST',
               headers: {"Content-Type":"application/json"}
             })
             .then(res=>{
-              getUsers();
               setSelU({})
+              getUsers();
+              
             })
             
           }}>
@@ -58,7 +60,7 @@ export default function App() {
         <View style={styles.Userbox}>
             {selectedU !== undefined ? 
             <View>
-          <User user={selectedU} UserListLen={listLen}/>
+          <User user={selectedU} UserListLen={listLen} getUsers={getUsers}/>
           <Pressable style={styles.updateBtn} onPress={()=>setSelU()} >
                 <Text>close</Text>
             </Pressable>
